@@ -1,4 +1,4 @@
-# Flysystem Webdav Adapter ![OrangeJuicePlease](https://avatars0.githubusercontent.com/u/6504853?v=3&s=50)
+# ![OrangeJuicePlease](https://avatars0.githubusercontent.com/u/6504853?v=3&s=50) Flysystem Webdav Adapter
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
