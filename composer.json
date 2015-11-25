@@ -1,0 +1,44 @@
+{
+    "name": "phoenixgao/flysystem-webdav",
+    "description": "Webdav Adapter for Flysystem",
+    "keywords": [
+        "flysyetem",
+        "webdav"
+    ],
+    "homepage": "https://github.com/phoenixgao/flysystem-webdav",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Xiang Gao",
+            "email": "phoenix.x.gao@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0",
+        "league/flysystem": "~1.0",
+        "sabre/dav": "~2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "mockery/mockery": "~0.9",
+        "scrutinizer/ocular": "~1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "OrangeJuice\\Flysystem\\WebDAV\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OrangeJuice\\Flysystem\\WebDAV\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
