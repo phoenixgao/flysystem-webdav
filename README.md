@@ -7,12 +7,13 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```:author_name``` ```:author_username``` ```:author_website``` ```:author_email``` ```:package_name``` ```:package_description``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line.
+This is yet another webdav adapter for [league/flysystem](https://github.com/thephpleague/flysystem).
 
-This is yet another webdav adapter for league/flysystem.
+Comparing to their official webdav adapter [league/flysystem-webdav](https://github.com/thephpleague/flysystem-webdav),
 
-Comparing to their official webdav adapter league/flysystem-webdav, this uses HEAD to check file existance, and
-[TODO] replace sabre/dav with own dav client based on guzzlehttp 6.
+this uses **HEAD** to check file existance, so it can work with nginx with ngx_http_dav_module, which doesn't support **PROPFIND**, and
+
+[TODO] replaces sabre/dav with own dav client based on guzzle http 6.
 
 ## Install
 
@@ -24,9 +25,48 @@ $ composer require phoenixgao/flysystem-webdav
 
 ## Usage
 
+### Use with [league/flysystem](https://github.com/thephpleague/flysystem)
+
 ``` php
-$skeleton = new League\Skeleton();
-echo $skeleton->echoPhrase('Hello, League!');
+<?php
+use Sabre\DAV\Client;
+use League\Flysystem\Filesystem;
+use OrangeJuice\Flysystem\WebDAV\WebDAVAdapter;
+
+$client = new Client($settings);
+$adapter = new WebDAVAdapter($client);
+$flysystem = new Filesystem($adapter);
+```
+
+### Use with [OneupFlysystemBundle](https://github.com/1up-lab/OneupFlysystemBundle)
+
+``` yml
+# services.yml
+services:
+    devclient:
+        class: Sabre\DAV\Client
+        arguments:
+            - { baseUri: http://ip:port/}
+
+    oneup_flysystem.adapter.webdav:
+        class: OrangeJuice\Flysystem\WebDAV\WebDAVAdapter
+        arguments: ['', '']
+
+# config.yml
+oneup_flysystem:
+    adapters:
+        webdav_adapter:
+            webdav:
+                client: devclient
+    filesystems:
+        webdav:
+            adapter: webdav_adapter
+            alias: storage.webdav
+```
+``` php
+<?php
+$webdav = $this->getContainer()->get('storage.webdav');
+$webdav->write("sample.txt", "123");
 ```
 
 ## Change log
@@ -45,11 +85,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 
 ## Security
 
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
+If you discover any security related issues, please email phoenix.x.gao@gmail.com instead of using the issue tracker.
 
 ## Credits
 
-- [phoenixgao][link-author]
+- [Phoenix Gao][link-author]
 - [All Contributors][link-contributors]
 
 ## License
