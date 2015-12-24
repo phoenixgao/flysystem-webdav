@@ -47,6 +47,16 @@ class WebDAVAdapter extends AbstractAdapter
     }
 
     /**
+     * Get client instance.
+     *
+     * @return Client
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getMetadata($path)
