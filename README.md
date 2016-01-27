@@ -7,6 +7,8 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/310eef8c-ffa2-4367-aab3-52578b13f783/big.png)](https://insight.sensiolabs.com/projects/310eef8c-ffa2-4367-aab3-52578b13f783)
+
 This is yet another webdav adapter for [league/flysystem](https://github.com/thephpleague/flysystem).
 
 Comparing to their official webdav adapter [league/flysystem-webdav](https://github.com/thephpleague/flysystem-webdav),
