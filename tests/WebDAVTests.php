@@ -5,8 +5,10 @@ namespace OrangeJuice\Flysystem\WebDAV\Test;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use OrangeJuice\Flysystem\WebDAV\WebDAVAdapter;
+use PHPUnit\Framework\TestCase;
+use LogicException;
 
-class WebDAVTests extends \PHPUnit_Framework_TestCase
+class WebDAVTests extends TestCase
 {
     protected function getClient()
     {
@@ -36,7 +38,7 @@ class WebDAVTests extends \PHPUnit_Framework_TestCase
         $mock = $this->getClient();
         $mock->shouldReceive('request')->once();
         $adapter = new WebDAVAdapter($mock);
-        $this->assertInternalType('array', $adapter->write('something', 'something', new Config()));
+        $this->assertIsArray($adapter->write('something', 'something', new Config()));
     }
 
     public function testUpdate()
@@ -44,7 +46,7 @@ class WebDAVTests extends \PHPUnit_Framework_TestCase
         $mock = $this->getClient();
         $mock->shouldReceive('request')->once();
         $adapter = new WebDAVAdapter($mock);
-        $this->assertInternalType('array', $adapter->update('something', 'something', new Config()));
+        $this->assertIsArray($adapter->update('something', 'something', new Config()));
     }
 
     /**
@@ -55,9 +57,10 @@ class WebDAVTests extends \PHPUnit_Framework_TestCase
         $mock = $this->getClient();
         $mock->shouldReceive('request')->once();
         $adapter = new WebDAVAdapter($mock);
-        $this->assertInternalType('array', $adapter->write('something', 'something', new Config([
+        $this->expectException(LogicException::class);
+        $adapter->write('something', 'something', new Config([
             'visibility' => 'private',
-        ])));
+        ]));
     }
 
     public function testReadStream()
@@ -72,7 +75,7 @@ class WebDAVTests extends \PHPUnit_Framework_TestCase
         ]);
         $adapter = new WebDAVAdapter($mock, 'bucketname', 'prefix');
         $result = $adapter->readStream('file.txt');
-        $this->assertInternalType('resource', $result['stream']);
+        $this->assertIsResource($result['stream']);
     }
 
     public function testRename()
@@ -146,10 +149,10 @@ class WebDAVTests extends \PHPUnit_Framework_TestCase
         $mock->shouldReceive('propFind')->twice()->andReturn($first, $second);
         $adapter = new WebDAVAdapter($mock, 'bucketname');
         $listing = $adapter->listContents('', true);
-        $this->assertInternalType('array', $listing);
+        $this->assertIsArray($listing);
     }
 
-    public function methodProvider()
+    public static function methodProvider()
     {
         return [
             ['getMetadata'],
@@ -173,7 +176,7 @@ class WebDAVTests extends \PHPUnit_Framework_TestCase
         ]);
         $adapter = new WebDAVAdapter($mock);
         $result = $adapter->{$method}('object.ext');
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
     }
 
     public function testCreateDir()
@@ -184,7 +187,7 @@ class WebDAVTests extends \PHPUnit_Framework_TestCase
         ]);
         $adapter = new WebDAVAdapter($mock);
         $result = $adapter->createDir('dirname', new Config());
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
     }
 
     public function testCreateDirFail()
@@ -210,7 +213,7 @@ class WebDAVTests extends \PHPUnit_Framework_TestCase
         ]);
         $adapter = new WebDAVAdapter($mock, 'bucketname', 'prefix');
         $result = $adapter->read('file.txt');
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
     }
 
     public function testReadFail()
